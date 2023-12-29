@@ -11,3 +11,4 @@ data class CountryInfo(
     val population: Long,
     val flag: String
 )
+

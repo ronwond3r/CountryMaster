@@ -1,18 +1,24 @@
 package com.example.countrymaster.ui.screens
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
+import com.example.countrymaster.CountryViewModel
 import com.example.countrymaster.R
 import com.example.countrymaster.networking.CountryInfo
 
@@ -40,6 +46,52 @@ fun CountryInfoScreen(
 
         // Display country details
         CountryDetails(countryInfo)
+    }
+}
+
+
+@Composable
+private fun LocationTextField(
+    location: String,
+    onLocationChanged: (String) -> Unit
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 4.dp)
+    ) {
+        Column {
+            Text(
+                "Location",
+                modifier = Modifier.padding(start = 4.dp)
+            )
+            BasicTextField(
+                value = location,
+                onValueChange = { onLocationChanged(it) },
+                textStyle = TextStyle(color = Color.Black),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color.White, shape = RoundedCornerShape(8.dp))
+                    .border(1.dp, Color.Gray, shape = RoundedCornerShape(8.dp))
+                    .padding(horizontal = 8.dp, vertical = 4.dp)
+            )
+        }
+    }
+}
+
+
+
+@Composable
+private fun SubmitButton(vm: CountryViewModel, name: String) {
+    Button(
+        onClick = {
+            vm.fetchCountryInfoByName(name)
+        },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 16.dp)
+    ) {
+        Text("Submit")
     }
 }
 

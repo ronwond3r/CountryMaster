@@ -8,14 +8,12 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.countrymaster.data.CountryInfoStorage
-import com.example.countrymaster.networking.CountryDataSource
 import com.example.countrymaster.networking.CountryInfo
-import com.example.countrymaster.utils.Result
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import com.example.countrymaster.data.Result
 
 interface CountryViewModel {
     val countryInfo: StateFlow<Result<CountryInfo>>
@@ -48,7 +46,7 @@ class CountryVM(application: Application) : AndroidViewModel(application), Count
                 val result = countryDataSource.getCountryInfoByName(name)
                 if (result is Result.Success) {
                     val countryInfo = result.data
-                    _countryName.value = countryInfo.name
+                    _countryName.value = countryInfo.officialName
                     _countryInfo.value = Result.Success(countryInfo)
                     // Save country information to storage if needed
                     // CountryInfoStorage.saveCountryInfo(context, countryInfo)
